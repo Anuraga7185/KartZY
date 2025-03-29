@@ -77,7 +77,11 @@ public class CartActivity extends AppCompatActivity {
             public void onSuccess(OrderCreateResponse response) {
                 if (response != null && response.status.equals("Available")) {
                     OrderRepo.repoInstance(getApplicationContext()).orderDatabase().userDao().clearTable();
+
                     Intent intent = new Intent(CartActivity.this, SuccessfulOrderScreen.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("order", response);
+                    intent.putExtra("bundle", bundle);
                     startActivity(intent);
                     finish();
                 }

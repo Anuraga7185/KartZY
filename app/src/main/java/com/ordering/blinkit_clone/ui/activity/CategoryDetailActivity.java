@@ -251,6 +251,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
             items.id = product._id;
             items.itemPrice = product.price;
             items.count = 1;
+            items.name = product.name;
             orderDetail.itemsMap.put(product._id, items);
             orderRepo.orderDao().insert(items);
 

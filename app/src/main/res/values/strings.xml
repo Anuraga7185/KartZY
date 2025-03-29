@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Blinkit_Clone</string>
     <string name="delivering_to_home">Delivering to <font color='#FFF'>Home</font></string>
+    <string name="delivering_to_office">Delivering to <font color='#FFF'>Office</font></string>
+    <string name="order_id_format">Order ID - #%s</string>
+    <string name="receivers_cnt_detail">%s  %s</string>
+
 </resources>

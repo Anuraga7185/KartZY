@@ -9,6 +9,7 @@ import android.view.animation.ScaleAnimation;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.ordering.blinkit_clone.databinding.SuccessfulOrderScreenBinding;
 
 public class SuccessfulOrderScreen extends AppCompatActivity {
@@ -38,7 +39,12 @@ public class SuccessfulOrderScreen extends AppCompatActivity {
         binding.lotAnim.startAnimation(scaleAnimation);
         Handler handler = new Handler();
         handler.postDelayed(() -> {
+            Bundle bundle = getIntent().getBundleExtra("bundle");
+
             Intent intent = new Intent(SuccessfulOrderScreen.this, OrderDetailActivity.class);
+            if (bundle != null) {
+                intent.putExtra("bundle", bundle);
+            }
             startActivity(intent);
             finish();
         }, 3000);

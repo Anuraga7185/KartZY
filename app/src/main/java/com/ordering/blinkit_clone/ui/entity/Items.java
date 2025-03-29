@@ -11,6 +11,7 @@ public class Items implements Serializable {
     public int primaryKey;
     public String id;
     public int count;
+    public String name;
     public double itemPrice;
 //    public String _id;
 

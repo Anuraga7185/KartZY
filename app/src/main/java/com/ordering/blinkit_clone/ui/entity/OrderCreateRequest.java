@@ -13,6 +13,7 @@ public class OrderCreateRequest implements Serializable {
 
     public int primaryKey;
     public String branch;
+    public UserLiveLocation deliveryPersonLocation;
     public ArrayList<Items> items;
     public Map<String, Items> itemsMap = new HashMap<>();
     public String status;

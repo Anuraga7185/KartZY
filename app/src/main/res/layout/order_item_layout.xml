@@ -36,7 +36,8 @@
                     android:id="@+id/order_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/blinkit_green_color" />
+                    android:textColor="@color/blinkit_green_color"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

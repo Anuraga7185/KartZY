@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 import com.ordering.blinkit_clone.R;
 import com.ordering.blinkit_clone.databinding.OrderDetailLayoutBinding;
 import com.ordering.blinkit_clone.service.SocketManager;
+import com.ordering.blinkit_clone.ui.entity.OrderCreateResponse;
 import com.ordering.blinkit_clone.ui.util.Constants;
 
 import org.json.JSONArray;
@@ -54,6 +55,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
     private Marker deliveryMarker, myLocationMarker;
+    OrderCreateResponse orderCreateResponse;
 
     private String mapAPIKey() {
         return "AIzaSyBUdfd676Xq_zXN7PrpDgiMPmX-6cm8YRc";
@@ -65,13 +67,11 @@ public class OrderDetailActivity extends AppCompatActivity {
         Log.d("Grocery App Opening Page -> ", "OrderDetailActivity");
         binding = OrderDetailLayoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        orderCreateResponse = getIntent().getBundleExtra("bundle") != null ? (OrderCreateResponse) getIntent().getBundleExtra("bundle").getSerializable("order") : null;
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                mMap = googleMap;
-                getCurrentLocation();
-            }
+        mapFragment.getMapAsync(googleMap -> {
+            mMap = googleMap;
+            getCurrentLocation();
         });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -84,6 +84,10 @@ public class OrderDetailActivity extends AppCompatActivity {
     private Runnable locationUpdateRunnable;
 
     private void socketSetup() {
+        if (orderCreateResponse == null) {
+            Log.d("Unable To fetch Orders", "Order is empty");
+            return;
+        }
 
         IO.Options options = new IO.Options();
         options.forceNew = true;
@@ -99,7 +103,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             socket.on(Socket.EVENT_DISCONNECT, args -> Log.e("SocketIO", "Disconnected from server"));
 
             socket.connect();
-            socket.emit("joinRoom", ORDER_ID);
+            socket.emit("joinRoom", orderCreateResponse.orderId);
         } catch (URISyntaxException e) {
             Log.e("SocketIO", "Socket connection error", e);
         }
@@ -146,7 +150,6 @@ public class OrderDetailActivity extends AppCompatActivity {
         }, 1);
     }
 
-    private static final String ORDER_ID = "ORDR00002"; // Example order ID
 
     @Override
     protected void onDestroy() {

@@ -29,7 +29,7 @@ public class DeliveryPartnerPortal extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Grocery App Opening Page -> ", "DeliveryPartner Portal└");
+        Log.d("Grocery App Opening Page -> ", "DeliveryPartner Portal");
 
         binding = DeliveryPartnerPortalLayoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

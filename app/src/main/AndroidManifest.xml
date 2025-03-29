@@ -48,6 +48,10 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
+            android:name=".ui.activity.delivery_partner.DeliverPartnerOrderDetailScreen"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name=".ui.activity.CategoryDetailActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -75,7 +79,6 @@
             android:name=".ui.activity.delivery_partner.DeliveryPartnerDashboard"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
 
         <!--Starting Phase-->
 

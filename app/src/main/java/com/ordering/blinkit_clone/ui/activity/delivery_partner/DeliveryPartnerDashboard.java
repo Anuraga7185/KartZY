@@ -1,6 +1,7 @@
 package com.ordering.blinkit_clone.ui.activity.delivery_partner;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -67,12 +68,7 @@ public class DeliveryPartnerDashboard extends AppCompatActivity {
      /*   socketSetup();
         startSendingLocationUpdates();*/
         requestDataForAllOrders();
-        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                requestDataForAllOrders();
-            }
-        });
+        binding.swipeRefreshLayout.setOnRefreshListener(this::requestDataForAllOrders);
     }
 
     private void setupButtons() {
@@ -105,7 +101,7 @@ public class DeliveryPartnerDashboard extends AppCompatActivity {
         options.transports = new String[]{"websocket"}; // Force WebSocket transport
 
         try {
-            socket = IO.socket("http://192.168.1.36:3000", options);
+            socket = IO.socket("http://192.168.1.45:3000", options);
 
             socket.on(Socket.EVENT_CONNECT, args -> Log.d("SocketIO", "Connected to server"));
             socket.on(Socket.EVENT_CONNECT_ERROR, args -> Log.e("SocketIO", "Connection Error: " + Arrays.toString(args)));
@@ -181,7 +177,7 @@ public class DeliveryPartnerDashboard extends AppCompatActivity {
 
 
     private void requestDataForAllOrders() {
-        String url = "http://192.168.1.41:3000/api/order";
+        String url = "http://192.168.1.45:3000/api/order";
         new Thread(() -> {
             try {
                 URL urlObj = new URL(url);
@@ -230,10 +226,19 @@ public class DeliveryPartnerDashboard extends AppCompatActivity {
         orderItemLayoutBinding.orderStatus.setText(orderDetail.status);
         StringBuilder builder = new StringBuilder();
         for (Items items : orderDetail.items) {
-            builder.append(items.count).append(" ").append(items.id).append("\n");
+            builder.append(items.count).append(" ").append(items.name).append("\n");
         }
         orderItemLayoutBinding.orderItems.setText(builder.toString());
         orderItemLayoutBinding.deliveryAddress.setText(orderDetail.deliveryLocation.address);
+        orderItemLayoutBinding.getRoot().setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("orderSelected", orderDetail);
+            Intent intent = new Intent(DeliveryPartnerDashboard.this, DeliverPartnerOrderDetailScreen.class);
+            intent.putExtra("bundle", bundle);
+            startActivity(intent);
+        });
+
+
     }
 
 

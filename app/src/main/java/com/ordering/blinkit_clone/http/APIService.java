@@ -3,9 +3,11 @@ package com.ordering.blinkit_clone.http;
 import com.ordering.blinkit_clone.ui.entity.Category;
 import com.ordering.blinkit_clone.ui.entity.LoggedUser;
 import com.ordering.blinkit_clone.ui.entity.LoginRequest;
+import com.ordering.blinkit_clone.ui.entity.OrderCreateDetailResponse;
 import com.ordering.blinkit_clone.ui.entity.OrderCreateRequest;
 import com.ordering.blinkit_clone.ui.entity.OrderCreateResponse;
 import com.ordering.blinkit_clone.ui.entity.OrderDetail;
+import com.ordering.blinkit_clone.ui.entity.OrderUpdateResponse;
 import com.ordering.blinkit_clone.ui.entity.Product;
 
 import java.util.List;
@@ -23,6 +25,10 @@ public interface APIService {
 
     @POST("api/delivery/login")
     Call<LoggedUser> deliveryPartnerLogin(@Body LoginRequest request);
+
+
+    @POST("api/order/{orderId}/confirm")
+    Call<OrderUpdateResponse> confirmOrder(@Header("Authorization") String authToken, @Path("orderId") String orderId, @Body OrderCreateRequest orderDetail);
 
     @GET("api/categories")
     Call<List<Category>> getCategories();
