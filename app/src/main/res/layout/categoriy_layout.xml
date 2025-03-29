@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:gravity="start"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/categoryImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter" />
+
+    <LinearLayout
+        android:id="@+id/category_container"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="7dp"
+        android:background="@drawable/curver_card_design"
+        android:orientation="vertical"
+        android:padding="7dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/img_ctg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/name_ctg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="3dp"
+        android:text="TTTT"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
+        android:visibility="gone" />
+</LinearLayout>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Blinkit_Clone</string>
+    <string name="delivering_to_home">Delivering to <font color='#FFF'>Home</font></string>
+</resources>

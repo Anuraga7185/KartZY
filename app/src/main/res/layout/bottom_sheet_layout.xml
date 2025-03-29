@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E6D3D0D0">
+
+    <!-- Bottom Sheet Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@drawable/bottom_drawable"
+        android:orientation="vertical"
+        app:behavior_peekHeight="64dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Header -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:text="Select delivery location"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- Search Bar -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:outlineSpotShadowColor="#686767"
+                    app:cardCornerRadius="7dp"
+                    app:cardElevation="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="7dp"
+                        android:paddingVertical="10dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/search_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:drawableStart="@drawable/ic_search"
+                            android:drawablePadding="5dp"
+                            android:hint="Search for area, street name..." />
+
+                        <ImageView
+                            android:id="@+id/clear_view"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/pre_location_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <!-- Current Location -->
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:outlineSpotShadowColor="#DCD9D9"
+                            app:cardCornerRadius="7dp"
+                            app:cardElevation="1dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+
+                                android:paddingBottom="10dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:paddingHorizontal="5dp">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_marginEnd="7dp"
+                                        android:src="@drawable/current_location_circle" />
+
+                                    <LinearLayout
+                                        android:id="@+id/curr_location"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical"
+                                        android:paddingVertical="16dp"
+                                        android:paddingStart="4dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Use current location"
+                                            android:textColor="@color/blinkit_green_color"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/location"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Pocket 10, Dashrath Puri, Durga Park Colony..."
+                                            android:textColor="#383838" />
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:src="@drawable/next" />
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="#2FB3B3B3" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="10dp"
+                                    android:orientation="horizontal"
+                                    android:paddingHorizontal="5dp">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="25dp"
+                                        android:layout_marginEnd="7dp"
+                                        android:backgroundTint="@color/blinkit_green_color"
+                                        android:src="@drawable/import_ic" />
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="4dp"
+                                        android:text="Add new address"
+                                        android:textColor="@color/blinkit_green_color"
+                                        android:textStyle="bold" />
+
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:src="@drawable/next" />
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="#2FB3B3B3" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:paddingHorizontal="2dp"
+                                    android:paddingVertical="8dp">
+
+                                    <ImageView
+                                        android:layout_width="40dp"
+                                        android:layout_height="40dp"
+                                        android:backgroundTint="@color/blinkit_green_color"
+                                        android:src="@drawable/zomato_ic" />
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingStart="4dp"
+                                        android:text="Import your addresses from Zomato"
+                                        android:textColor="@color/black" />
+
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:src="@drawable/next" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="15dp"
+                            android:outlineSpotShadowColor="#DCD9D9"
+                            app:cardCornerRadius="7dp"
+                            app:cardElevation="1dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="5dp"
+                                android:paddingVertical="10dp">
+
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:backgroundTint="@color/blinkit_green_color"
+                                    android:src="@drawable/whatsapp_ic" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingStart="4dp"
+                                    android:text="Request address from someone else"
+                                    android:textColor="@color/black" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/next" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                        <!-- Saved Addresses -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="8dp"
+                            android:text="Your saved addresses"
+                            android:textColor="#525252" />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="15dp"
+                            android:outlineSpotShadowColor="#DCD9D9"
+                            app:cardCornerRadius="7dp"
+                            app:cardElevation="1dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="start"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="5dp"
+                                android:paddingVertical="10dp">
+
+                                <LinearLayout
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginEnd="7dp"
+                                    android:background="@drawable/curver_card_design"
+                                    android:gravity="center">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="25dp"
+                                        android:backgroundTint="@color/blinkit_green_color"
+                                        android:src="@drawable/home" />
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
+
+                                    <TextView
+                                        android:id="@+id/home"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentStart="true"
+                                        android:text="Home"
+                                        android:textColor="#F2454545"
+                                        android:textSize="15dp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/far"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="5dp"
+                                        android:layout_marginTop="5dp"
+                                        android:layout_toEndOf="@id/home"
+                                        android:gravity="center_vertical"
+                                        android:text="You are here"
+                                        android:textColor="@color/greenColor"
+                                        android:textSize="10dp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/address"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/home"
+                                        android:maxLines="2"
+                                        android:paddingBottom="16dp"
+                                        android:text="rz-75a , gali no 8 Durga park, new delhi-45, Dashrath puri, New Delhi"
+                                        android:textColor="#595959" />
+
+                                </RelativeLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="7dp"
+                            android:outlineSpotShadowColor="#DCD9D9"
+                            app:cardCornerRadius="7dp"
+                            app:cardElevation="1dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="start"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="5dp"
+                                android:paddingVertical="10dp">
+
+                                <LinearLayout
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginEnd="7dp"
+                                    android:background="@drawable/curver_card_design"
+                                    android:gravity="center">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="25dp"
+                                        android:backgroundTint="@color/blinkit_green_color"
+                                        android:src="@drawable/home" />
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
+
+                                    <TextView
+                                        android:id="@+id/home2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentStart="true"
+                                        android:text="Home"
+                                        android:textColor="#F2454545"
+                                        android:textSize="15dp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/far2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="5dp"
+                                        android:layout_marginTop="5dp"
+                                        android:layout_toEndOf="@id/home2"
+                                        android:gravity="center_vertical"
+                                        android:text="You are here"
+                                        android:textColor="@color/greenColor"
+                                        android:textSize="10dp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/address2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/home2"
+                                        android:maxLines="2"
+                                        android:paddingBottom="16dp"
+                                        android:text="rz-75a , gali no 8 Durga park, new delhi-45, Dashrath puri, New Delhi"
+                                        android:textColor="#595959" />
+
+                                </RelativeLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </ScrollView>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><!-- roll_up.xml (in res/anim folder) -->
+<!--<set xmlns:android="http://schemas.android.com/apk/res/android">
+    &lt;!&ndash; Apply the 3D rotation (flip) &ndash;&gt;
+    <rotate
+        android:fromDegrees="0"
+        android:toDegrees="180"
+        android:duration="1000"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+    &lt;!&ndash; Move the text to simulate the 3D effect &ndash;&gt;
+    <translate
+        android:fromYDelta="0%"
+        android:toYDelta="0%"
+        android:duration="2500" />
+</set>-->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+   <!-- <translate
+        android:duration="3000"
+        android:fromYDelta="0%"
+        android:toYDelta="100%p" />-->
+    <rotate
+        android:duration="2000"
+        android:fromDegrees="0"
+        android:toDegrees="90" />
+</set>
+
+    <!--
+    <rotate xmlns:android="http://schemas.android.com/apk/res/android"
+        android:duration="@integer/material_motion_duration_long_2"
+        android:fromDegrees="0"
+        android:interpolator="@android:anim/decelerate_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toDegrees="90" />-->

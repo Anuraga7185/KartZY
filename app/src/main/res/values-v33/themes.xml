@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+ <!--   <style name="Base.Theme.CustomSplashScreen" parent="Theme.Material3.DayNight.NoActionBar">
+        &lt;!&ndash; <item name="android:windowSplashScreenBackground">@color/appThemeColor</item>
+         <item name="android:windowSplashScreenAnimatedIcon">@color/appThemeColor</item>
+         <item name="android:windowSplashScreenAnimationDuration">200</item>
+         <item name="android:windowSplashScreenBehavior">default</item>&ndash;&gt;
+        <item name="android:windowBackground">@color/appThemeColor</item>
+        &lt;!&ndash; Customize your light theme here. &ndash;&gt;
+        <item name="colorPrimaryDark">@color/appThemeColor</item>
+        <item name="colorAccent">@color/appThemeColor</item>
+        <item name="colorPrimary">@color/appThemeColor</item>
+    </style>-->
+</resources>
