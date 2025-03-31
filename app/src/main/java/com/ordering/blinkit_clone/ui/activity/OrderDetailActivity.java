@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -109,47 +110,77 @@ public class OrderDetailActivity extends AppCompatActivity {
         }
     }
 
+    private Socket socket;
+
     class SocketData {
         public String sender;
         public DataMsg message;
 
         class DataMsg {
-            public String latitude;
-            public String longitude;
+            public double latitude;
+            public double longitude;
+            public String status;
+            public String address;
         }
+
     }
 
     private void getDataFromSocket() {
-        handler.postDelayed(locationUpdateRunnable = new Runnable() {
-            @Override
-            public void run() {
-                socket.on("message", new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        if (args.length > 0) {
-                            Object data = args[0];
-                            if (data instanceof JSONObject) {
-                                JSONObject jsonObject = (JSONObject) data;
-                                Gson gson = new Gson();
-                                SocketData socketData = gson.fromJson(jsonObject.toString(), SocketData.class);
+        handler.postDelayed(locationUpdateRunnable = () -> {
+            socket.on("message", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    if (args.length > 0) {
+                        Object data = args[0];
+                        if (data instanceof JSONObject) {
+                            JSONObject jsonObject = (JSONObject) data;
+                            Gson gson = new Gson();
+                            SocketData socketData = gson.fromJson(jsonObject.toString(), SocketData.class);
 
-                                Log.d("SOCKET LISTENER", "Received JSON: " + jsonObject.toString());
-                                Log.d("SOCKET LISTENER", "Parsed Data: " + socketData.toString());
+                            Log.d("SOCKET LISTENER", "Received JSON: " + jsonObject.toString());
+                            Log.d("SOCKET LISTENER", "Parsed Data: " + socketData.toString());
+                            dataFromSocket(socketData);
 
-                            } else {
-                                Log.e("SOCKET LISTENER", "Unexpected data type: " + data.getClass().getSimpleName());
-                            }
+
                         } else {
-                            Log.e("SOCKET LISTENER", "Received empty args");
+                            Log.e("SOCKET LISTENER", "Unexpected data type: " + data.getClass().getSimpleName());
                         }
+                    } else {
+                        Log.e("SOCKET LISTENER", "Received empty args");
                     }
-                });
+                }
+            });
 
-                handler.postDelayed(locationUpdateRunnable, 4000);
-            }
+            handler.postDelayed(locationUpdateRunnable, 4000);
         }, 1);
     }
 
+    private void dataFromSocket(SocketData location) {
+        LatLng deliveryLocation = new LatLng(location.message.latitude, location.message.longitude);
+        runOnUiThread(() -> {
+            if (deliveryMarker != null) {
+                deliveryMarker.setPosition(deliveryLocation);
+            } else {
+                deliveryMarker = mMap.addMarker(new MarkerOptions()
+                        .position(deliveryLocation)
+                        .title("Delivery Partner")
+                        .icon(resizeBitmap(R.drawable.delivery, 120, 120)));
+            }
+
+            // Draw a polyline between myLocation and deliveryLocation
+            if (myLocationMarker != null) {
+                LatLng myLocation = myLocationMarker.getPosition();
+                fetchRouteFromGoogle(myLocation, deliveryLocation);
+            }
+
+            // Move camera to show both locations
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(myLocationMarker.getPosition());
+            builder.include(deliveryMarker.getPosition());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
+
+        });
+    }
 
     @Override
     protected void onDestroy() {
@@ -157,8 +188,6 @@ public class OrderDetailActivity extends AppCompatActivity {
         socket.disconnect();
         socket.off();
     }
-
-    private Socket socket;
 
     private void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -171,7 +200,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 .addOnSuccessListener(location -> {
                     if (location != null) {
                         LatLng myLocation = new LatLng(28.594761, 77.072715);
-                        Toast.makeText(OrderDetailActivity.this, myLocation.latitude + " " + myLocation.longitude, Toast.LENGTH_LONG);
+                        Toast.makeText(OrderDetailActivity.this, myLocation.latitude + " " + myLocation.longitude, Toast.LENGTH_LONG).show();
                         myLocationMarker = mMap.addMarker(new MarkerOptions()
                                 .position(myLocation).icon(resizeBitmap(R.drawable.home, 60, 60))
                                 .title("My Location"));

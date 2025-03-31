@@ -2,8 +2,10 @@ package com.ordering.blinkit_clone.ui.activity.delivery_partner;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
@@ -13,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.ordering.blinkit_clone.R;
@@ -60,7 +65,7 @@ public class DeliverPartnerOrderDetailScreen extends AppCompatActivity {
         binding.buttonAction.setOnClickListener(this::onButtonClick);
     }
 
-    String tempToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzhiOTY4OGQ4ODE4NDNhNmZlZmM0ZjUiLCJyb2xlIjoiRGVsaXZlcnlQYXJ0bmVyIiwiaWF0IjoxNzQzMjczOTg1LCJleHAiOjE3NDMzNjAzODV9.r1A-PKfMPG2Q0z-Bz2Q6LFa6FpehJEXXylKS-qBAy3A";
+    String tempToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzhiOTY4OGQ4ODE4NDNhNmZlZmM0ZjUiLCJyb2xlIjoiRGVsaXZlcnlQYXJ0bmVyIiwiaWF0IjoxNzQzNDQ4NjQ3LCJleHAiOjE3NDM1MzUwNDd9.V2P48eFgi6a4hcZ3kEKufxaJs8K5cwjMwqjY-kcvbg8";
 
     private void onButtonClick(View view) {
 
@@ -145,12 +150,33 @@ public class DeliverPartnerOrderDetailScreen extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
             return;
         }
-        fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+
+ /*       fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
                 Log.d("get Current Location...", location.getLongitude() + " " + location.getLatitude());
                 callback.location(new LatLng(location.getLatitude(), location.getLongitude()));
             }
-        });
+        });*/
+
+        LocationRequest locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(5000) // Request location update every 5 seconds
+                .setFastestInterval(2000) // Fastest allowed interval
+                .setNumUpdates(1); // Get only one updated location and stop
+
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, new com.google.android.gms.location.LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                if (locationResult.getLastLocation() == null) {
+                    Log.d("getCurrentLocation", "Location result is null");
+                    return;
+                }
+                Location location = locationResult.getLastLocation();
+                Log.d("getCurrentLocation", location.getLongitude() + " " + location.getLatitude());
+                callback.location(new LatLng(location.getLatitude(), location.getLongitude()));
+            }
+        }, Looper.getMainLooper());
     }
 
     private void startSendingLocationUpdates() {
@@ -165,6 +191,7 @@ public class DeliverPartnerOrderDetailScreen extends AppCompatActivity {
                         JSONObject msg = new JSONObject();
                         msg.put("latitude", location.latitude);
                         msg.put("longitude", location.longitude);
+                        msg.put("status", orderDetail.status);
                         msg.put("address", "Street Number 5A Durga Park Colony, Manglapuri, New Delhi, Delhi, 110045");
                         locationData.put("message", msg);
 
@@ -177,7 +204,7 @@ public class DeliverPartnerOrderDetailScreen extends AppCompatActivity {
                     handler.postDelayed(this, LOCATION_UPDATE_INTERVAL);
                 });
             }
-        }, 10);
+        }, 1000);
     }
 
     private void stopSendingLocationUpdates() {
